@@ -269,7 +269,8 @@ class CustomDataset(Dataset):
             gt_masks = self.mask_transform(gt_masks, pad_shape,
                                            scale_factor, flip)
 
-        ori_shape = (img_info['height'], img_info['width'], 3)
+        # ori_shape = (img_info['height'], img_info['width'], 3)
+        ori_shape = (840, 712, 3)
         img_meta = dict(
             ori_shape=ori_shape,
             img_shape=img_shape,
@@ -312,7 +313,8 @@ class CustomDataset(Dataset):
                 img, scale, flip, keep_ratio=self.resize_keep_ratio)
             _img = to_tensor(_img)
             _img_meta = dict(
-                ori_shape=(img_info['height'], img_info['width'], 3),
+                # ori_shape = (img_info['height'], img_info['width'], 3)
+                ori_shape = (840, 712, 3),
                 img_shape=img_shape,
                 pad_shape=pad_shape,
                 scale_factor=scale_factor,
@@ -341,7 +343,8 @@ class CustomDataset(Dataset):
             _img = to_tensor(_img)
             # if self.rotate_test_aug is not None:
             _img_meta = dict(
-                ori_shape=(img_info['height'], img_info['width'], 3),
+                # ori_shape = (img_info['height'], img_info['width'], 3)
+                ori_shape = (840, 712, 3),
                 img_shape=img_shape,
                 pad_shape=pad_shape,
                 scale_factor=scale_factor,

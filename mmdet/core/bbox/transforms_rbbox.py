@@ -569,7 +569,7 @@ def mask2poly_single(binary_mask):
         rect = cv2.minAreaRect(max_contour)
         poly = cv2.boxPoints(rect)
         # poly = TuplePoly2Poly(poly)
-    except:
+    except Exception as e:
         import pdb
         pdb.set_trace()
     return poly
