@@ -41,7 +41,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=17,
+            num_classes=6,
             target_means=[0., 0., 0., 0.],
             target_stds=[0.1, 0.1, 0.2, 0.2],
             reg_class_agnostic=True,
@@ -59,7 +59,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=17,
+            num_classes=6,
             target_means=[0., 0., 0., 0.],
             target_stds=[0.05, 0.05, 0.1, 0.1],
             reg_class_agnostic=True,
@@ -100,7 +100,7 @@ model = dict(
         num_convs=4,
         in_channels=256,
         conv_out_channels=256,
-        num_classes=17,
+        num_classes=6,
         loss_mask=dict(
             type='CrossEntropyLoss', use_mask=True, loss_weight=1.0)))
 # model training and testing settings
@@ -204,8 +204,8 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + '/DV_train.json',
-        img_prefix=data_root + 'train/trainimg',
+        ann_file=data_root + '/DV_train_r.json',
+        img_prefix=data_root + 'train/trainimgr',
         img_scale=(840, 712),
         img_norm_cfg=img_norm_cfg,
         size_divisor=32,
@@ -215,8 +215,8 @@ data = dict(
         with_label=True),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + '/DV_val.json',
-        img_prefix=data_root + 'val/valimg',
+        ann_file=data_root + '/DV_val_r.json',
+        img_prefix=data_root + 'val/valimgr',
         img_scale=(840, 712),
         img_norm_cfg=img_norm_cfg,
         size_divisor=32,
@@ -226,8 +226,8 @@ data = dict(
         with_label=True),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + '/DV_test.json',
-        img_prefix=data_root + 'test/testimg',
+        ann_file=data_root + '/DV_test_r.json',
+        img_prefix=data_root + 'test/testimgr',
         img_scale=(840, 712),
         img_norm_cfg=img_norm_cfg,
         size_divisor=32,
@@ -245,7 +245,7 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
     step=[8, 11])
-checkpoint_config = dict(interval=4)
+checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
     interval=50,
@@ -255,10 +255,10 @@ log_config = dict(
     ])
 # yapf:enable
 # runtime settings
-total_epochs = 12
+total_epochs = 13
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/htc_without_semantic_r50_fpn_1x_dota1_5'
+work_dir = './work_dirs/htc_without_semantic_r50_fpn_1x_dota1_5_infrared_new'
 load_from = None
-resume_from = None
+resume_from = '/media/khmt/disk1/tungp/UAV_CV/AerialDetection/work_dirs/htc_without_semantic_r50_fpn_1x_dota1_5_infrared_new/latest.pth'
 workflow = [('train', 1)]

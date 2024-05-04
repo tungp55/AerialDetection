@@ -28,7 +28,7 @@ from DOTA_devkit.ResultMerge_multi_process import *
 # import pdb; pdb.set_trace()
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
-    parser.add_argument('--config', default='configs/DOTA/faster_rcnn_r101_fpn_1x_dota2_v3_RoITrans_v5.py')
+    parser.add_argument('--config', default='/media/khmt/disk1/tungp/UAV_CV/AerialDetection/configs/cascade_mask_rcnn_r50_fpn_1x.py')
     parser.add_argument('--type', default=r'HBB',
                         help='parse type of detector')
     args = parser.parse_args()
@@ -57,6 +57,7 @@ def OBB2HBB(srcpath, dstpath):
                     f_out.write(outline)
 
 def parse_results(config_file, resultfile, dstpath, type):
+    print(dstpath)
     cfg = Config.fromfile(config_file)
 
     data_test = cfg.data['test']
@@ -79,7 +80,12 @@ def parse_results(config_file, resultfile, dstpath, type):
         # dota2, hbb has passed, obb has passed
         hbb_results_dict, obb_results_dict = HBBSeg2Comp4(dataset, outputs)
         current_thresh = 0.3
-
+    # print(hbb_results_dict, obb_results_dict)
+    with open(os.path.join(dstpath, 'hbb_results_dict' + '.txt'), 'w') as f:
+        f.write(str(hbb_results_dict))
+    with open(os.path.join(dstpath, 'obb_results_dict' + '.txt'), 'w') as f:
+        f.write(str(obb_results_dict))
+        
     dataset_type = cfg.dataset_type
 
     if 'obb_results_dict' in vars():
@@ -98,7 +104,7 @@ def parse_results(config_file, resultfile, dstpath, type):
             os.makedirs(os.path.join(dstpath, 'Task1_results_nms'))
 
         mergebypoly_multiprocess(os.path.join(dstpath, 'Task1_results'),
-                                 os.path.join(dstpath, 'Task1_results_nms'), nms_type=r'py_cpu_nms_poly_fast', o_thresh=current_thresh)
+                                 os.path.join(dstpath, 'Task1_results_nms'), nms_type=r'obb_hybrid_NMS', o_thresh=current_thresh)
 
         OBB2HBB(os.path.join(dstpath, 'Task1_results_nms'),
                          os.path.join(dstpath, 'Transed_Task2_results_nms'))
@@ -123,8 +129,8 @@ if __name__ == '__main__':
     args = parse_args()
     config_file = args.config
     config_name = os.path.splitext(os.path.basename(config_file))[0]
-    pkl_file = os.path.join('work_dirs', config_name, 'results.pkl')
+    # pkl_file = os.path.join('work_dirs', config_name, 'results.pkl')
+    pkl_file = '/media/khmt/disk1/tungp/UAV_CV/AerialDetection/work_dirs/htc_without_semantic_r50_fpn_1x_dota1_5_infrared_new/results.pkl'
     output_path = os.path.join('work_dirs', config_name)
     type = args.type
     parse_results(config_file, pkl_file, output_path, type)
-

@@ -218,7 +218,7 @@ def mergebyrec(srcpath, dstpath, nms_thresh=0.3):
               dstpath,
               py_cpu_nms, nms_thresh)
 
-def mergebypoly_multiprocess(srcpath, dstpath, nms_type='py_cpu_nms_poly_fast', o_thresh=0.1, h_thresh=0.5):
+def mergebypoly_multiprocess(srcpath, dstpath, nms_type='obb_HNMS', o_thresh=0.1, h_thresh=0.5):
     """
     srcpath: result files before merge and nms
     dstpath: result files after merge and nms

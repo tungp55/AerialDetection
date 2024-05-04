@@ -86,6 +86,9 @@ class DetectorModel():
                 subimg[:chip.shape[0], :chip.shape[1], :] = chip
 
                 chip_detections = inference_detector(self.model, subimg)
+                # print(chip_detections[0])
+                # chip_detections=chip_detections[1]
+                print(chip_detections)
 
                 # print('result: ', result)
                 for cls_id, name in enumerate(self.classnames):
@@ -107,11 +110,11 @@ class DetectorModel():
         cv2.imwrite(dstpath, img)
 
 if __name__ == '__main__':
-    roitransformer = DetectorModel(r'configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_dota.py',
-                  r'work_dirs/faster_rcnn_RoITrans_r50_fpn_1x_dota/epoch_12.pth')
+    roitransformer = DetectorModel(r'/media/khmt/disk1/tungp/UAV_CV/AerialDetection/configs/TConfigs/htc_without_semantic_r50_fpn_1x_dota1_5.py',
+                  r'/media/khmt/disk1/tungp/UAV_CV/AerialDetection/work_dirs/htc_without_semantic_r50_fpn_1x_dota1_5_infrared_new/epoch_6.pth')
 
     roitransformer.inference_single_vis(r'demo/P0009.jpg',
                                        r'demo/P0009_out.jpg',
-                                        (512, 512),
-                                       (1024, 1024))
+                                        (356, 420),
+                                       (712, 840))
 
