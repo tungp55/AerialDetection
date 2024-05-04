@@ -189,6 +189,7 @@ class CustomDataset(Dataset):
 
     def prepare_train_img(self, idx):
         img_info = self.img_infos[idx]
+        # print(img_info)
         # load image
         img = mmcv.imread(osp.join(self.img_prefix, img_info['filename']))
         # load proposals if necessary
@@ -269,8 +270,8 @@ class CustomDataset(Dataset):
             gt_masks = self.mask_transform(gt_masks, pad_shape,
                                            scale_factor, flip)
 
-        # ori_shape = (img_info['height'], img_info['width'], 3)
-        ori_shape = (840, 712, 3)
+        ori_shape = (img_info['height'], img_info['width'], 3)
+        # ori_shape = (840, 712, 3)
         img_meta = dict(
             ori_shape=ori_shape,
             img_shape=img_shape,
@@ -298,6 +299,7 @@ class CustomDataset(Dataset):
         """Prepare an image for testing (multi-scale and flipping)"""
         img_info = self.img_infos[idx]
         img = mmcv.imread(osp.join(self.img_prefix, img_info['filename']))
+        # print(img)
         if self.proposals is not None:
             proposal = self.proposals[idx][:self.num_max_proposals]
             if not (proposal.shape[1] == 4 or proposal.shape[1] == 5):
@@ -311,10 +313,12 @@ class CustomDataset(Dataset):
         def prepare_single(img, scale, flip, proposal=None):
             _img, img_shape, pad_shape, scale_factor = self.img_transform(
                 img, scale, flip, keep_ratio=self.resize_keep_ratio)
+            # print(img_shape)
+            # print(pad_shape)
             _img = to_tensor(_img)
             _img_meta = dict(
-                # ori_shape = (img_info['height'], img_info['width'], 3)
-                ori_shape = (840, 712, 3),
+                ori_shape = (img_info['height'], img_info['width'], 3),
+                # ori_shape = (840, 712, 3),
                 img_shape=img_shape,
                 pad_shape=pad_shape,
                 scale_factor=scale_factor,
@@ -343,8 +347,8 @@ class CustomDataset(Dataset):
             _img = to_tensor(_img)
             # if self.rotate_test_aug is not None:
             _img_meta = dict(
-                # ori_shape = (img_info['height'], img_info['width'], 3)
-                ori_shape = (840, 712, 3),
+                ori_shape = (img_info['height'], img_info['width'], 3),
+                # ori_shape = (840, 712, 3),
                 img_shape=img_shape,
                 pad_shape=pad_shape,
                 scale_factor=scale_factor,

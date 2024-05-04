@@ -103,7 +103,7 @@ def add_plot_parser(subparsers):
         '--keys',
         type=str,
         nargs='+',
-        default=['bbox_mAP'],
+        default=['loss'],
         help='the metric that you want to plot')
     parser_plt.add_argument('--title', type=str, help='title of figure')
     parser_plt.add_argument(
